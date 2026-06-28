@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<TournamentService>();
 
 var app = builder.Build();
 
