@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Tournament> Tournaments { get; set; }
+    public DbSet<UserTournament> UserTournaments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +32,16 @@ public class AppDbContext : DbContext
 
             // Mapeia o Enum de status para ser salvo como número inteiro no banco
             entity.Property(e => e.Status).IsRequired().HasConversion<int>();
+        });
+
+        // Mapeamento da nova entidade de junção UserTournament
+        modelBuilder.Entity<UserTournament>(entity =>
+        {
+            // Define a chave primária composta (UserId + TournamentId)
+            entity.HasKey(e => new { e.UserId, e.TournamentId });
+
+            entity.Property(e => e.IsChampion).IsRequired();
+            entity.Property(e => e.RegistrationDate).IsRequired();
         });
     }
 }
